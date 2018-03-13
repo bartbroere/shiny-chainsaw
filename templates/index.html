@@ -170,3 +170,13 @@ function click(d) {
 }
 
 </script>
+
+<!-- TODO default values and input form -->
+{% for parameter in parameters %}
+    <p>{{ parameter }}</p>
+{% endfor %}
+
+<!-- TODO dropdowns for disabled, continuous, categorical -->
+{% for column_name in column_names %}
+    <p>{{ column_name }}</p>
+{% endfor %}

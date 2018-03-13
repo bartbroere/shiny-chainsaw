@@ -11,11 +11,12 @@ flask==0.12.2
 itsdangerous==0.24        # via flask
 jinja2==2.10              # via flask
 markupsafe==1.0           # via jinja2
+numpy==1.14.2
+pandas==0.22.0
 pip-tools==1.11.0
+python-dateutil==2.7.0    # via pandas
+pytz==2018.3              # via pandas
 pyyaml==3.12              # via confidence
 scikit-learn==0.19.1
-six==1.11.0               # via pip-tools
+six==1.11.0               # via pip-tools, python-dateutil
 werkzeug==0.14.1          # via flask
-numpy
-pandas
-scipy
