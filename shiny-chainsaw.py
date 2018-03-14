@@ -78,11 +78,14 @@ def train_tree():
                     kwargs[parameter] = request.args[parameter]
     X_select = pandas.DataFrame()
     for column_name in X_categorical_enabled:
-        X_select.add(pandas.get_dummies(X[column_name],
-                                           prefix=column_name,
-                                           prefix_sep="_"), axis=1)
+        X_select = pandas.concat([X_select,
+                                  pandas.get_dummies(X[column_name],
+                                                     prefix=column_name,
+                                                     prefix_sep="_")],
+                                 axis=1)
     for column_name in X_continuous_enabled:
-        X_select.add(X[column_name], axis=1)
+        X_select = pandas.concat([X_select, X[column_name]], axis=1)
+    print(X_select.shape)
     classifier = DecisionTreeClassifier(**kwargs)
     if X_select.shape[0] == 0:
         X_select = X
