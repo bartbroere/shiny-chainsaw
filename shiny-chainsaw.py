@@ -15,16 +15,16 @@ y = pandas.DataFrame(iris.target)
 
 
 def rules(clf, features, labels, node_index=0):
-    """Structure of rules in a fit decision tree classifier
+    """
+    Represents nodes in a decision tree and their children nodes as
+    nested dictionaries
 
-    Parameters
-    ----------
-    clf : DecisionTreeClassifier
-        A tree that has already been fit.
-
-    features, labels : lists of str
-        The names of the features and labels, respectively.
-
+    :param clf: an instance of an sklearn decision tree classifier
+    :param features: names of the features in the classifier
+    :param labels: names of the labels in the classifier
+    :param node_index: index of node used for recursion over nodes
+    :return: a node with its subnodes
+    :return: the full decision tree if node_index == 0
     """
     node = {}
     if clf.tree_.children_left[node_index] == -1:  # indicates leaf
@@ -43,6 +43,14 @@ def rules(clf, features, labels, node_index=0):
 
 
 @app.route('/', methods=['POST', 'GET'])
+def load_data_dialog():
+    """
+
+    :return:
+    """
+
+
+@app.route('/train', methods=['POST', 'GET'])
 def train_tree():
     """
     Re-train a decision tree based on the input of a web page.
@@ -92,9 +100,16 @@ def train_tree():
         X_select = X
     classifier.fit(X_select, y)
     with open('static/tree.json', 'w') as w:
-        w.write(json.dumps(rules(classifier, features=X_select.columns, labels=list(y[0].unique()))))
-    parameters = [(parameter_name, parameter.default, kwargs.get(parameter_name, '')) for parameter_name, parameter in parameters]
-    return render_template('index.html', parameters=parameters, column_names=X.columns)
+        w.write(json.dumps(rules(classifier,
+                                 features=X_select.columns,
+                                 labels=list(y[0].unique()))))
+    parameters = [(parameter_name,
+                   parameter.default,
+                   kwargs.get(parameter_name, ''))
+                  for parameter_name, parameter in parameters]
+    return render_template('index.html',
+                           parameters=parameters,
+                           column_names=X.columns)
 
 
 if __name__ == '__main__':
