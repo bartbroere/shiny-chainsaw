@@ -7,6 +7,7 @@ from flask import Flask, render_template
 from flask import request
 from sklearn import datasets
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.preprocessing import MultiLabelBinarizer
 
 app = Flask(__name__)
 iris = datasets.load_iris()
@@ -91,7 +92,7 @@ def train_tree():
         X_select = X
     classifier.fit(X_select, y)
     with open('static/tree.json', 'w') as w:
-        w.write(json.dumps(rules(classifier, features=X_select.columns, labels=['1', '2', '3'])))
+        w.write(json.dumps(rules(classifier, features=X_select.columns, labels=list(y[0].unique()))))
     return render_template('index.html', parameters=parameters, column_names=X_select.columns)
 
 
