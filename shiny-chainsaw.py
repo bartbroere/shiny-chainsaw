@@ -7,7 +7,6 @@ from flask import Flask, render_template
 from flask import request
 from sklearn import datasets
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.preprocessing import MultiLabelBinarizer
 
 app = Flask(__name__)
 iris = datasets.load_iris()
@@ -46,8 +45,9 @@ def rules(clf, features, labels, node_index=0):
 @app.route('/', methods=['POST', 'GET'])
 def train_tree():
     """
+    Re-train a decision tree based on the input of a web page.
 
-    :return:
+    :return: A new version of the webpage, with a re-trained decision tree.
     """
     parameters = list(inspect.signature(DecisionTreeClassifier.__init__).
                       parameters.items())
@@ -93,7 +93,8 @@ def train_tree():
     classifier.fit(X_select, y)
     with open('static/tree.json', 'w') as w:
         w.write(json.dumps(rules(classifier, features=X_select.columns, labels=list(y[0].unique()))))
-    return render_template('index.html', parameters=parameters, column_names=X_select.columns)
+    parameters = [(parameter_name, parameter.default, kwargs.get(parameter_name, '')) for parameter_name, parameter in parameters]
+    return render_template('index.html', parameters=parameters, column_names=X.columns)
 
 
 if __name__ == '__main__':

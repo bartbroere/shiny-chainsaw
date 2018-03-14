@@ -12,15 +12,15 @@
 
             {% for column_name in column_names %}
                 <select name="{{ column_name }}">
-                    <option value="continuous">{{ column_name }} as continuous</option>
-                    <option value="categorical">{{ column_name }} as categorical</option>
-                    <option value="disabled">{{ column_name }} as disabled</option>
+                    <option value="continuous" {{ 'selected' if request.args[column_name] == 'continuous' }}>{{ column_name }} as continuous</option>
+                    <option value="categorical" {{ 'selected' if request.args[column_name] == 'categorical' }}>{{ column_name }} as categorical</option>
+                    <option value="disabled" {{ 'selected' if request.args[column_name] == 'disabled' }}>{{ column_name }} as disabled</option>
                 </select>
                 <br>
             {% endfor %}
 
-            {% for parameter_name, parameter in parameters %}
-                <input name="{{ parameter_name }}" placeholder="{{ parameter_name }}" value="{{ parameter.default }}">{{ parameter_name }}
+            {% for parameter_name, parameter_default, parameter_current in parameters %}
+                <input name="{{ parameter_name }}" placeholder="{{ parameter_name }}" value="{{ parameter_current }}">{{ parameter_name }} (default: {{ parameter_default }})
                 <br>
             {% endfor %}
 
