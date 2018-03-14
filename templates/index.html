@@ -20,7 +20,7 @@
             {% endfor %}
 
             {% for parameter_name, parameter_default, parameter_current in parameters %}
-                <input name="{{ parameter_name }}" placeholder="{{ parameter_name }}" value="{{ parameter_current }}">{{ parameter_name }} (default: {{ parameter_default }})
+                <input name="{{ parameter_name }}" placeholder="{{ parameter_name }}" value="{{ parameter_current }}">default: {{ parameter_default }}
                 <br>
             {% endfor %}
 
